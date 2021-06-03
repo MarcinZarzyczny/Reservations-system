@@ -1,9 +1,10 @@
-
 class NameForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-            value: '',    
+            value: '',
+            mnessage: '',
+                
     };
   
       this.handleChange = this.handleChange.bind(this);
@@ -15,76 +16,52 @@ class NameForm extends React.Component {
     }
   
     handleSubmit(event) {
-      
-      console.log (this.state.value);
+
+      if(this.state.value <= 50 && this.state.value > 0){
+        const conteiner = document.getElementsByClassName("conteiner");
+        conteiner[0].style.visibility = "hidden";
+      }else if (this.state.value > 50){
+        this.setState({
+          mnessage: "Nie mamy sal z tyloma miejsacami siedzącymi.\n Skontaktuj się z recepcją."
+        })
+      }else if(this.state.value == 0){
+        this.setState({
+          mnessage: "Prosimy wybrać przyjajmniej jedno miejsce."
+        })
+      }else{
+        this.setState({
+          mnessage: "Prosimy podać liczbę miejsc."
+        })
+
+      }
       event.preventDefault();
     }
-  
     render() {
       return (
         <div class = "conteiner">
-          <form onSubmit = {this.handleSubmit}>
+          <div class = "conteinerTwo">
+           <p class ="message">{this.state.mnessage}</p>
+            <form onSubmit = {this.handleSubmit}>
               <label>
-              <p>Liczba miejsc:</p>
-              <input type = "text" value = {this.state.value} onChange = {this.handleChange} />
+                <p>Liczba miejsc:</p>
+                <input type = "text" maxlength="5" value = {this.state.value} onChange = {this.handleChange} />
               </label><br/>
               <label> 
                 <input type = "checkbox" class = "checkbox"/>
                 <p>Czy miejsca mają być obok siebie?</p>          
               </label><br/>
               <input type = "submit" className = "btn" value = "Wybież miejsca" />
-          </form>
+            </form>
+          </div>
         </div>
       );
     }
   }
-
-  
-
   const App = () => {
     return (
-         <div>
-            <NameForm/>
-         </div>
+      <>
+        <NameForm/>
+      </>
     )
 }
 ReactDOM.render(<App/>, document.getElementById('root'))
-
-
-/*Komponent funkcyjny (Bezstanowy)
-const SectionOne = () => {
-    return (
-        <div>
-            <p>Liczba miejsc: </p> 
-            <input type type="text"> </input>
-
-        </div>
-    )
-}
-const SectionTwo = () => {
-    return(
-        <div>      
-            <input type="checkbox" > </input>
-            <p>Czt miwjsca mają być koło siebie?</p>
-        </div>
-
-    )
-}
-const SectionThre = () => {
-    return(
-        <button type="button">Wubież miejsca</button>
-    )
-}
-const App = () => {
-    return (
-         <div>
-            <SectionOne/>
-            <SectionTwo/>
-            <SectionThre/>
-         </div>
-           
-           
-    )
-}
-ReactDOM.render(<App/>, document.getElementById('root'))
-*/
