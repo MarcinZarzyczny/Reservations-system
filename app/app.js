@@ -17,7 +17,7 @@ class NameForm extends React.Component {
       this.setState({value: event.target.value});
     }
     handleCheckbox(event){
-      this.setState({checkbox: event.target.value});
+      this.setState({checkbox: event.target.checked});
     }
 
 
@@ -186,6 +186,7 @@ class NameForm extends React.Component {
         display: "inline-block",
         margin: "auto",
         zIndex: 6,
+        fontWeight: "bold",
         color: "black",
         fontSize: 12
 
@@ -208,7 +209,6 @@ class NameForm extends React.Component {
         width: 795,
         height: 80
       };
-
       return (
       <div style = {legendsStyle}>
         <ChairTwo bgColor = {"#FFFFFF"} marginLeft = {5}/>
@@ -221,6 +221,43 @@ class NameForm extends React.Component {
       );
     }
   }
+  class Button extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        bgColor: "#234324"
+      };
+
+      this.reserveSpace = this.reserveSpace.bind(this);
+    }
+    reserveSpace(e) {
+      this.setState({
+          bgColor:  "red"
+        });
+        alert('Klik działa.');
+    }
+
+    render() {
+        var battonStyle = {
+          width: 310,
+          height: 70,
+          display: "block",
+          position: "relative",
+          backgroundColor: this.props.bgColor,
+          border: "2px solid #545352",
+          float: "right",
+          zIndex: 22,
+          marginTop: -75,
+          fontWeight: "bold",
+          fontSize: 20
+      };
+
+      
+      return (
+        <button onClick={this.reserveSpace} style = {battonStyle}>Rezerwój</button>
+      );
+    }
+  }
 
   function Room() {
     return (
@@ -228,6 +265,7 @@ class NameForm extends React.Component {
        <div  className = "room">
         {renderChair}
         <Legends/>
+        <Button bgColor = {"#FFFFFF"}/>
       </div>
       </>
     );
@@ -236,6 +274,7 @@ class NameForm extends React.Component {
   const App = () => {
     return (
       <>
+      <NameForm/>
        <Room/>
       </>
     )
