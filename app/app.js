@@ -1,3 +1,22 @@
+let map = [
+  0, 0, 1, 1, 1, 0, 1, 1, 2, 2, 0, 1, 1, 1, 1,
+  0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
+  0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 2, 2, 1, 1,
+  2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 2, 1, 1, 1,
+  1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 0, 2, 2, 1, 1, 0, 1, 1, 2, 2
+];
+const chair = [
+  { colour: '#FFFFFF', border : "#FFFFFF"},
+  { colour: '#FFFFFF', border : "#545352"},
+  { colour: '#545352', border : "#545352"}
+];
+let renderChair = [];
+let numberCheir = 0;
+let customerChoice = [];
+let theNumberOfSeats = 0;
+
 class NameForm extends React.Component {
     constructor(props) {
       super(props);
@@ -23,11 +42,12 @@ class NameForm extends React.Component {
 
     handleSubmit(event) {
 
-      if(this.state.value <= 50 && this.state.value > 0){
+      if(this.state.value <= 77 && this.state.value > 0){
         const conteiner = document.getElementsByClassName("conteiner");
+        theNumberOfSeats= this.state.value;
         conteiner[0].style.visibility = "hidden";
         alert(this.state.checkbox);
-      }else if (this.state.value > 50){
+      }else if (this.state.value > 77){
         this.setState({
           mnessage: "Nie mamy sali z tyloma miejsacami siedzącymi.\n Skontaktuj się z recepcją."
         })
@@ -66,58 +86,79 @@ class NameForm extends React.Component {
   }
 
   class Chair extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        status:  this.props.status,
+        number: this.props.number,
+        selected: false,
+        bgColor:  this.props.bgColor
+      };
+      this.reserveSpace = this.reserveSpace.bind(this);
+
+    }
+
+    reserveSpace(e) {
+  
+
+      if(this.state.status == "true" && this.state.selected == false && customerChoice.length < theNumberOfSeats){
+        customerChoice.push(this.state.number);
+        this.setState({
+          selected: true,
+          bgColor: "#FF8927"
+        });
+      }else if(this.state.status == "true" && this.state.selected == true ){
+        for( var index = 0; index <= customerChoice.length; index++){
+          if(customerChoice[index] == this.state.number){
+            customerChoice.splice(index, 1);
+            this.setState({
+              selected: false,
+              bgColor: "#FFFFFF"
+            }); 
+          }
+        }
+      }else if (this.state.status == "true" && this.state.selected == false && customerChoice.length >= theNumberOfSeats){
+        alert("Przekroszyłeś ilość deklarowanych miejsc!!!");
+        customerChoice.push(this.state.number);
+        this.setState({
+          selected: true,
+          bgColor: "#FF8927"
+        });
+      }
+    }
     render() {
       var chairStyle = {
         margin: 5,
         display: "inline-block",
         border: "2px solid",
         borderColor: this.props.boColor,
-        backgroundColor: this.props.bgColor,
+        backgroundColor: this.state.bgColor,
         color: "red",
         width: 70,
         height: 70
       };
       return (
-      <div style = {chairStyle}></div>
+      <div style = {chairStyle} onClick={this.reserveSpace}><p>{this.state.number}</p></div>
       );
     }
   }
-  var map = [
-    0, 0, 1, 1, 1, 0, 1, 1, 2, 2, 0, 1, 1, 1, 1,
-    0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
-    0, 0, 1, 1, 1, 0, 3, 3, 3, 1, 0, 2, 2, 1, 1,
-    2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 2, 1, 1, 1,
-    1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 0, 2, 2, 1, 1, 0, 1, 1, 2, 2
-  ];
-  var chair = [
-    { colour: '#FFFFFF', border : "#FFFFFF"},
-    { colour: '#FFFFFF', border : "#545352"},
-    { colour: '#545352', border : "#545352"},
-    { colour: '#FF8927', border : "#545352"}
-  ];
-  var renderChair= [];
-  var namberChair = 0; 
-
-
 
   for (var index = 0; index < map.length; index++) {
-    if (map[index] > 3 || map[index] < 0){
+    if (map[index] > 2 || map[index] < 0){
       alert("Błąd mapy. Numer pozycji: " + index)
       breyk;
     }else{ 
       if (map[index] == 0){
         renderChair.push(<Chair key={index} bgColor= {chair[0].colour} boColor= {chair[0].border}/>);
       }else if (map[index] == 1){
-        namberChair++;
-        renderChair.push(<Chair key={index} bgColor= {chair[1].colour} boColor= {chair[1].border}/>);
+        numberCheir++;
+        renderChair.push(<Chair key={index} status = "true" number = {numberCheir} bgColor= {chair[1].colour} boColor= {chair[1].border}/>);
       }else if  (map[index] == 2){
-        namberChair++;
-        renderChair.push(<Chair key={index} bgColor= {chair[2].colour} boColor= {chair[2].border}/>);
+        numberCheir++;
+        renderChair.push(<Chair key={index} number = {numberCheir} bgColor= {chair[2].colour} boColor= {chair[2].border}/>);
       }else if (map[index] == 3){
-        namberChair++;
-        renderChair.push(<Chair key={index} bgColor= {chair[3].colour} boColor= {chair[3].border}/>);
+        numberCheir++;
+        renderChair.push(<Chair key={index} number = {numberCheir} bgColor= {chair[3].colour} boColor= {chair[3].border}/>);
       }
     }
   }
@@ -199,6 +240,7 @@ class NameForm extends React.Component {
     }
   }
 
+  
   class Legends extends React.Component {
     render() {
       var legendsStyle = {
@@ -225,14 +267,15 @@ class NameForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        bgColor: "#234324"
+        bgColor: "#FFFFFF"
       };
 
       this.reserveSpace = this.reserveSpace.bind(this);
     }
+
     reserveSpace(e) {
       this.setState({
-          bgColor:  "red"
+          bgColor: "#545352"
         });
         alert('Klik działa.');
     }
@@ -243,7 +286,7 @@ class NameForm extends React.Component {
           height: 70,
           display: "block",
           position: "relative",
-          backgroundColor: this.props.bgColor,
+          backgroundColor: this.state.bgColor,
           border: "2px solid #545352",
           float: "right",
           zIndex: 22,
@@ -265,7 +308,7 @@ class NameForm extends React.Component {
        <div  className = "room">
         {renderChair}
         <Legends/>
-        <Button bgColor = {"#FFFFFF"}/>
+        <Button/>
       </div>
       </>
     );

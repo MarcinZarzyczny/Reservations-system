@@ -89,6 +89,11 @@ p{
 .btn:hover {
   background-color: #c0bcbc;
 }
+.btnTwo:hover {
+  background-color: #a39e9e;
+  color: #0f0f0f;
+
+}
 .room{
   width: 1200px;
   height: 680px;
