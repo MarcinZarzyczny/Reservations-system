@@ -46,7 +46,6 @@ class NameForm extends React.Component {
         const conteiner = document.getElementsByClassName("conteiner");
         theNumberOfSeats= this.state.value;
         conteiner[0].style.visibility = "hidden";
-        alert(this.state.checkbox);
       }else if (this.state.value > 77){
         this.setState({
           mnessage: "Nie mamy sali z tyloma miejsacami siedzącymi.\n Skontaktuj się z recepcją."
@@ -95,12 +94,26 @@ class NameForm extends React.Component {
         bgColor:  this.props.bgColor
       };
       this.reserveSpace = this.reserveSpace.bind(this);
+      this.mauseEnter = this.mauseEnter.bind(this);
+      this.mauseLive = this.mauseLive.bind(this);
 
     }
 
+    mauseEnter(e){
+      if(this.state.status == "true" && this.state.selected == false){
+        this.setState({
+          bgColor: "#c0bcbc"
+        });
+      }
+    }
+    mauseLive(e){
+      if(this.state.status == "true" && this.state.selected == false){
+        this.setState({
+          bgColor: "#FFFFFF"
+        });
+      }
+    }
     reserveSpace(e) {
-  
-
       if(this.state.status == "true" && this.state.selected == false && customerChoice.length < theNumberOfSeats){
         customerChoice.push(this.state.number);
         this.setState({
@@ -138,7 +151,7 @@ class NameForm extends React.Component {
         height: 70
       };
       return (
-      <div style = {chairStyle} onClick={this.reserveSpace}><p>{this.state.number}</p></div>
+      <div style = {chairStyle} onMouseEnter = {this.mauseEnter} onMouseLeave = {this.mauseLive} onClick={this.reserveSpace}></div>
       );
     }
   }
@@ -271,13 +284,30 @@ class NameForm extends React.Component {
       };
 
       this.reserveSpace = this.reserveSpace.bind(this);
+      this.mauseEnter = this.mauseEnter.bind(this);
+      this.mauseLive = this.mauseLive.bind(this);
+
     }
 
+    mauseEnter(e){
+      this.setState({
+        bgColor: "#c0bcbc"
+      });
+    }
+    mauseLive(e){
+      this.setState({
+        bgColor: "#FFFFFF"
+      });
+    }
     reserveSpace(e) {
       this.setState({
           bgColor: "#545352"
         });
-        alert('Klik działa.');
+      if(customerChoice.length > 0 ){
+        alert("Rezerwacja przyjęta. Numer rezerwacji: " + customerChoice);
+      }else{
+        alert("Wybież przynajmniej jedno miejsce.");
+      }  
     }
 
     render() {
@@ -292,12 +322,13 @@ class NameForm extends React.Component {
           zIndex: 22,
           marginTop: -75,
           fontWeight: "bold",
+          borderRadius: 50,
           fontSize: 20
       };
 
       
       return (
-        <button onClick={this.reserveSpace} style = {battonStyle}>Rezerwój</button>
+        <button onClick={this.reserveSpace} onMouseEnter = {this.mauseEnter} onMouseLeave = {this.mauseLive} style = {battonStyle}>Rezerwój</button>
       );
     }
   }
