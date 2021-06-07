@@ -26,6 +26,7 @@ input[type="text"]{
   font-size: 14px;
   color:#545352;
   border-radius: 20px;
+  box-shadow: 2px 2px 5px #545352;
 }
 p{
   display: inline-block;
@@ -45,6 +46,7 @@ p{
   margin-top: 30px;
   margin-right: 10px;
   display: inline-block;
+  box-shadow: 2px 2px 5px #545352;
 }
 .conteiner{
   width: 100%;
@@ -71,6 +73,7 @@ p{
   margin: auto; 
   z-index: 51;
   border-radius: 10px;
+  box-shadow: 2px 2px 5px #545352;
 
 }
 .btn {
@@ -84,10 +87,12 @@ p{
   font-size: 14px;
   color:  #545352;
   padding: 2px;
-  border-radius: 50px;
+  border-radius: 25px;
+  box-shadow: 2px 2px 5px #545352;
 }
 .btn:hover {
   background-color: #c0bcbc;
+  cursor: pointer;
 }
 .btnTwo:hover {
   background-color: #a39e9e;
