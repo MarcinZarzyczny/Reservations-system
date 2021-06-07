@@ -12,10 +12,10 @@ body {
 
 }
 input[type="text"]{
-  width: 110px;
-  height: 20px;
+  width: 160px;
+  height: 30px;
   background-color: rgb(255, 255, 255);
-  border: 1px solid #545352;
+  border: 2px solid #545352;
   margin-left: 20px;
   margin-top: 25px;
   display: inline-block;
@@ -25,11 +25,16 @@ input[type="text"]{
   padding-right: 5px;
   font-size: 14px;
   color:#545352;
-  border-radius: 20px;
-  box-shadow: 2px 2px 5px #545352;
 }
 p{
   display: inline-block;
+  font-weight: 600;
+
+}
+.labelpl{
+  position: relative;
+  top: 30px;
+  height: 50px;
 }
 .message{
   color: #545352;
@@ -41,12 +46,28 @@ p{
   left: 0; 
 }
 .checkbox{
-  width: 15px;
-  height: 15px;
-  margin-top: 30px;
-  margin-right: 10px;
-  display: inline-block;
-  box-shadow: 2px 2px 5px #545352;
+  width: 20px;
+  height: 20px;
+  position: relative; 
+  padding: auto;
+  top: 4px; 
+  right: 0; 
+  bottom: 0; 
+  left: 0; 
+  margin: auto; 
+  font-weight: 500;
+  margin-right: 5px;
+  color: black;
+  border: 2px solid #545352;
+}
+.chekboxp {
+  position: relative; 
+  padding: auto;
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0; 
+  margin: auto; 
 }
 .conteiner{
   width: 100%;
@@ -63,7 +84,6 @@ p{
   width: 300px;
   height: 185px; 
   background-color: #FFFFFF;
-  border: 2px solid #545352;
   position: absolute; 
   padding: auto;
   top: 0; 
@@ -72,30 +92,26 @@ p{
   left: 0; 
   margin: auto; 
   z-index: 51;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px #545352;
-
 }
 .btn {
-  width: 280px;
+  width: 310px;
   height: 40px;
+  position: relative;
   background-color: #FFFFFF;
   border: 2px solid #545352;
-  margin-top: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
+  top: 60px;
   font-size: 14px;
   color:  #545352;
   padding: 2px;
-  border-radius: 25px;
-  box-shadow: 2px 2px 5px #545352;
+  font-weight: 600;
+
 }
 .btn:hover {
   background-color: #c0bcbc;
   cursor: pointer;
 }
 .btnTwo:hover {
-  background-color: #a39e9e;
+  background-color: #d4cfcf;
   color: #0f0f0f;
 
 }

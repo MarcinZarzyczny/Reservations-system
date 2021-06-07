@@ -1,6 +1,7 @@
 
-   let data;
-   let seats;
+   let data, seats;
+   let bookingList = [];
+
    //Utworzenie obiektu XMLHttpRequestObiect.
    function getXMLHttpRequestObiect(){
      try{
@@ -36,18 +37,16 @@ function RenderingMap(seats){
   let map = [
     [0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
     [0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-    [0, 0, 1, 1, 1, 0, 1, 1, 3, 1, 0, 1, 1, 1, 1],
+    [0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1]
   ];
 
-  console.log(seats.seats.length)
   for(var index = 0; index < seats.seats.length; index++){
     if(seats.seats[index].cords.x < 7 && seats.seats[index].cords.y < 15){
        if(seats.seats[index].reserved == true && map[seats.seats[index].cords.x][seats.seats[index].cords.y] !=0){
-        console.log(map[seats.seats[index].cords.x][0]);
         map[seats.seats[index].cords.x][seats.seats[index].cords.y] = 2;
       }
     }
@@ -62,7 +61,6 @@ function RenderingMap(seats){
   let numberCheir = 0;
   let customerChoice = [];
   let theNumberOfSeats = 0;
-  let chekbox = false;
 
   class NameForm extends React.Component {
       constructor(props) {
@@ -93,7 +91,6 @@ function RenderingMap(seats){
         if(this.state.value <= 77 && this.state.value > 0){
           const conteiner = document.getElementsByClassName("conteiner");
           theNumberOfSeats= this.state.value;
-          
           conteiner[0].style.visibility = "hidden";
         }else if (this.state.value > 77){
           this.setState({
@@ -107,7 +104,6 @@ function RenderingMap(seats){
           this.setState({
             mnessage: "Prosimy podać liczbę miejsc."
           })
-
         }
         event.preventDefault();
       }
@@ -121,11 +117,11 @@ function RenderingMap(seats){
                   <p>Liczba miejsc:</p>
                   <input type = "text" maxLength = "2" value = {this.state.value} onChange = {this.handleChange} />
                 </label><br/>
-                <label> 
+                <label className = "labelpl"> 
                   <input type = "checkbox" className = "checkbox" onChange = {this.handleCheckbox}/>
-                  <p>Czy miejsca mają być obok siebie?</p>          
+                  <p className = "chekboxp">Czy miejsca mają być obok siebie?</p>          
                 </label><br/>
-                <input type = "submit" className = "btn" value = "|Wybierz miejsca" />
+                <input type = "submit" className = "btn" value = "Wybierz miejsca"/>
               </form>
             </div>
           </div>
@@ -238,25 +234,6 @@ function RenderingMap(seats){
       }
     }
     renderMap(map);
-
-    class Inf extends React.Component {
-      render() {
-        var infStyle = {
-          margin: 5,
-          marginTop: "50px",
-          display: "inline-block",
-          backgroundColor: "white",
-          color: "red",
-          width: 150,
-          height: 70
-        };
-        return (
-        <div style = {infStyle}>
-          <p>tekst</p>
-        </div>
-        );
-      }
-    }
     class ChairTwo extends React.Component {
       render() {
           var cheirOne2 = {
@@ -340,6 +317,25 @@ function RenderingMap(seats){
         );
       }
     }
+    class InfOne extends React.Component {
+      render() {
+        var infStyle = {
+          top: 50,
+          position: "relative",
+          display: "block",
+          color: "black",
+          width: 150,
+          fontSize: 15,
+          padding: 2,
+          height: 19
+        };
+        return (
+          <>
+            <p className ="InfOne" style={infStyle}>{this.props.txt}</p>
+          </>
+        );
+      }
+    }
     class Button extends React.Component {
       constructor(props) {
         super(props);
@@ -366,10 +362,34 @@ function RenderingMap(seats){
         this.setState({
             bgColor: "#545352"
           });
+        
         if(customerChoice.length > 0 ){
-          alert("Rezerwacja przyjęta. Numer rezerwacji: " + customerChoice);
+          var bookingList = document.getElementById ("list");
+          var childrenList = bookingList.children;
+          var list = [];
+          for (var indexChLiost = 0; indexChLiost < childrenList.length; indexChLiost++){ 
+            bookingList.removeChild(childrenList[indexChLiost]);
+          } 
+
+          for (var index = 0; index < customerChoice.length; index++){
+            localStorage.setItem("customerChoice", customerChoice);
+            keyIndeks++;
+            let element = document.createElement('div');
+            element.style.marginLeft = "50px";
+            element.style.width = "150px",
+            element.style.display = "block";
+            element.style.position = "relative";
+            if (customerChoice[index][1] < 10){
+              element.innerHTML = "- rząd " + (customerChoice[index][0]) + ", miejsce 0" + customerChoice [index][1];
+            }else{              
+              element.innerHTML = "- rząd " + (customerChoice[index][0]) + ", miejsce " + customerChoice [index][1];
+            }
+            bookingList.append(element);
+          }
+          const book = document.getElementsByClassName('book');
+          book[0].style.visibility = "visible"; 
         }else{
-          alert("|Wybierz przynajmniej jedno miejsce.");
+          alert("Wybierz przynajmniej jedno miejsce.");
         }  
       }
 
@@ -387,11 +407,13 @@ function RenderingMap(seats){
             fontWeight: "bold",
             cursor: "pointer",
             boxShadow: "2px 2px 5px #545352",
-            borderRadius: 50,
             fontSize: 20
         };
         return (
-          <button onClick={this.reserveSpace} onMouseEnter = {this.mouseEnter} onMouseLeave = {this.mouseLive} style = {battonStyle}>Rezerwuj</button>
+          <>
+            <button onClick={this.reserveSpace} onMouseEnter = {this.mouseEnter} onMouseLeave = {this.mouseLive} style = {battonStyle}>Rezerwuj</button>
+          </>
+
         );
       }
     }
@@ -407,12 +429,69 @@ function RenderingMap(seats){
         </>
       );
     }
+    class ConfirmRreservations extends React.Component {
+      render() {
+        var ConfirmRreservationsStyle = {
+          width: "100%",
+          height: "100%",
+          position: "fixed",
+          backgroundColor: "white",
+          visibility: "hidden",
+          zIndex: 100
+        };
+        var container ={
+          width: "100%",
+          minHeight: "0%",
+          display: "block",
+          marginTop: 5,
+          padding: 2,
+          float: "left",
+          position: "relative"
+        };
+        var hStyle = {
+          float: "left",
+          fontSize: 25,
+          marginLeft: 20,
+          top: 20,
+          display: "block",
+          position: "relative",
+          color: "black"
+        };
+        var pStyle = {
+          float: "left",
+          left: 20,
+          display: "block",
+          position: "relative",
+          marginLeft: 20,
+          marginTop: 40,
+          color: "block"
+        };
+        return (
 
+        <div className = "book" style = {ConfirmRreservationsStyle}>
+          <div style = {container}>
+            <h1  style = {hStyle}>Twoja rezerwacja przebiegła pomyślnie.</h1><br/>
+          </div>
+          <div style = {container}>          
+            <p style = {pStyle}>Wybrałeś miejsca: </p><br/>
+          </div>
+          <div style = {container} id = "list">
+            <InfOne txt = "0"/>
+          </div>
+          <div style = {container}> 
+            <p style = {pStyle}>Dziękujemy! W razie problemów prosimy o kontakt z działem administracji. </p><br/>
+          </div>
+
+        </div>
+        );
+      }
+    }
     const App = () => {
       return (
         <>
-       {/*} <NameForm/>*/}
+        <NameForm/>
         <Room/>
+        <ConfirmRreservations/>
         </>
       )
   }
